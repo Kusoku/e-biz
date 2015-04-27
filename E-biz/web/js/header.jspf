@@ -24,10 +24,10 @@
 	  <nav>
 	    <div id="menubar">
           <ul id="nav">
-            <li><a href="/WebApplication2/index.jsp">Home</a></li>
-            <li><a href="/WebApplication2/build.jsp">Build Aquarium</a></li>
-            <li><a href="/WebApplication2/nitrogen.jsp">Nitrogen Cycle</a></li>
-            <li><a href="/WebApplication2/fish.jsp">Maintenance</a></li>
+            <li><a href="/E-biz/index.jsp">Home</a></li>
+            <li><a href="/E-biz/build.jsp">Build Aquarium</a></li>
+            <li><a href="/E-biz/nitrogen.jsp">Nitrogen Cycle</a></li>
+            <li><a href="/E-biz/fish.jsp">Maintenance</a></li>
           </ul>
         </div><!--close menubar-->	
       </nav>
