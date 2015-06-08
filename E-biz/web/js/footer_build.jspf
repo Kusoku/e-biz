@@ -11,9 +11,8 @@
   </div><!--close main-->
   
   <!-- javascript at the bottom for fast page loading -->
-	<script type="text/javascript" src="js/jquery.min.js"></script>
+	<script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
 	<script type="text/javascript" src="js/image_slide.js"></script>
-	<script type="text/javascript" src="js/jquery-1.11.1.js"></script>
 	<script type="text/javascript" src="js/jquery.tablesorter.js"></script>
 	<script>
   

@@ -7,6 +7,7 @@
   <meta name="description" content="website description" />
   <meta name="keywords" content="website keywords, website keywords" />
   <meta http-equiv="content-type" content="text/html; charset=windows-1252" />
+  <!-- <link href="bootstrap-3.3.4-dist/css/bootstrap.min.css" rel="stylesheet">-->
   <link rel="stylesheet" type="text/css" href="css/style.css" />
   <!-- modernizr enables HTML5 elements and feature detects -->
   <script type="text/javascript" src="js/modernizr-1.5.min.js"></script>
@@ -21,14 +22,14 @@
 	      <h3>Project E-biz: <span>Build a Aquarium</span></h3>
 	    </div><!--close welcome_slogan-->
       </div><!--close strapline-->	  
-	  <nav>
+        <nav>
 	    <div id="menubar">
-          <ul id="nav">
-            <li><a href="/E-biz/index.jsp">Home</a></li>
-            <li><a href="/E-biz/build.jsp">Build Aquarium</a></li>
-            <li><a href="/E-biz/nitrogen.jsp">Nitrogen Cycle</a></li>
-            <li><a href="/E-biz/fish.jsp">Maintenance</a></li>
-          </ul>
-        </div><!--close menubar-->	
-      </nav>
+              <ul id="nav">
+                <li><a href="/E-biz/index.jsp">Home</a></li>
+                <li><a href="/E-biz/build.jsp">Build Aquarium</a></li>
+                <li><a href="/E-biz/nitrogen.jsp">Nitrogen Cycle</a></li>
+                <li><a href="/E-biz/fish.jsp">Maintenance</a></li>
+              </ul>
+            </div>
+        </nav>
     </header>
