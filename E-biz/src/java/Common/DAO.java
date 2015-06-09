@@ -30,30 +30,154 @@ public class DAO
         try {
             Class.forName("org.apache.derby.jdbc.ClientDriver");
             
-            con = DriverManager.getConnection("jdbc:derby://localhost:1527/sample", "app", "app");
+            con = DriverManager.getConnection("jdbc:derby://localhost:1527/Aquarium", "root", "admin");
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(DAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
-    //------------------Posts------------------    
- /*   public Models.Aquarium GetAquarium (int id) throws SQLException
+    //------------------Aquarium------------------         
+    
+    // ********* Tank Methods
+    private Models.Tank createTank(ResultSet rs) throws SQLException 
+    {
+        Models.Tank tank = new Models.Tank();
+        tank.setId(rs.getInt(1));
+        tank.setCapacity(rs.getInt(2));
+        tank.setType(rs.getString(3));
+        
+        return tank;       
+    }
+    
+    public Models.Tank GetTank (int id) throws SQLException
     {
         connect();
-        String query_string = "select p.id, p.user_id, u.name, p.title, p.content, p.created_at from POSTS as p LEFT JOIN users as u ON p.user_id = u.id where p.id = "+Integer.toString(id);
+        String query_string = "SELECT capacity, type FROM tank WHERE id=?";
         PreparedStatement pstmt = con.prepareStatement(query_string);
+        pstmt.setInt(1, id);
         ResultSet rs = pstmt.executeQuery();
 
         if(rs.next())
         {
-            Models.Post post = createPost(rs);
+            Models.Tank tank = createTank(rs);
             con.close();
-            return post;
+            return tank;
         }
         con.close();
         return null;
     }
- */       
+    
+    public Vector<Models.Tank> GetTanks () throws SQLException
+    {
+        Vector<Models.Tank> vector = new Vector<Models.Tank>();
+        connect();
+        PreparedStatement pstmt;
+        pstmt = con.prepareStatement("SELECT capacity, type FROM tank");
+        ResultSet rs = pstmt.executeQuery();    
+        while(rs.next())
+        {
+            vector.add(createTank(rs));
+        }
+        con.close();
+        return vector;
+    }
+    
+    // ********* Heater Methods
+    private Models.Heater createHeater(ResultSet rs) throws SQLException 
+    {
+        Models.Heater heater = new Models.Heater();
+        heater.setId(rs.getInt(1));
+        heater.setCapacity(rs.getInt(2));
+        heater.setType(rs.getString(3));
+        
+        return heater;       
+    }
+    
+    public Models.Heater GetHeater (int id) throws SQLException
+    {
+        connect();
+        String query_string = "SELECT capacity, type FROM heater WHERE id=?";
+        PreparedStatement pstmt = con.prepareStatement(query_string);
+        pstmt.setInt(1, id);
+        ResultSet rs = pstmt.executeQuery();
+
+        if(rs.next())
+        {
+            Models.Heater heater = createHeater(rs);
+            con.close();
+            return heater;
+        }
+        con.close();
+        return null;
+    }
+    
+    public Vector<Models.Heater> GetHeaters () throws SQLException
+    {
+        Vector<Models.Heater> vector = new Vector<Models.Heater>();
+        connect();
+        PreparedStatement pstmt;
+        pstmt = con.prepareStatement("SELECT capacity, type FROM heater");
+        ResultSet rs = pstmt.executeQuery();    
+        while(rs.next())
+        {
+            vector.add(createHeater(rs));
+        }
+        con.close();
+        return vector;
+    }
+    
+    // ********* Filter Methods
+    
+    private Models.Filter createFilter(ResultSet rs) throws SQLException 
+    {
+        Models.Filter filter = new Models.Filter();
+        filter.setId(rs.getInt(1));
+        filter.setCapacity(rs.getInt(2));
+        filter.setType(rs.getString(3));
+        
+        return filter;       
+    }
+    
+    public Models.Filter GetFilter (int id) throws SQLException
+    {
+        connect();
+        String query_string = "SELECT capacity, type FROM filter WHERE id=?";
+        PreparedStatement pstmt = con.prepareStatement(query_string);
+        pstmt.setInt(1, id);
+        ResultSet rs = pstmt.executeQuery();
+
+        if(rs.next())
+        {
+            Models.Filter filter = createFilter(rs);
+            con.close();
+            return filter;
+        }
+        con.close();
+        return null;
+    }
+    
+    public Vector<Models.Filter> GetFilters () throws SQLException
+    {
+        Vector<Models.Filter> vector = new Vector<Models.Filter>();
+        connect();
+        PreparedStatement pstmt;
+        pstmt = con.prepareStatement("SELECT capacity, type FROM filter");
+        ResultSet rs = pstmt.executeQuery();    
+        while(rs.next())
+        {
+            vector.add(createFilter(rs));
+        }
+        con.close();
+        return vector;
+    }
+    
+    
+    
+    
+    
+    
+    
+    
     //------------------Users------------------
     private Models.User createUser(ResultSet rs) throws SQLException 
     {

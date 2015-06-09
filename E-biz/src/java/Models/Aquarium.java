@@ -10,16 +10,20 @@ package Models;
  * @author Konrad
  */
 public class Aquarium {
-    int id;
-    int capacity;
-    String type;
+    int userID;
+    Tank tank;
+    Heater heater;
+    Filter filter;
     
-    public void setId(int value) { id = value; }
-    public int getId() { return id; }
+    public void setUserId(int value) { userID = value; }
+    public int getUserId() { return userID; }
     
-    public void setCapacity(int value) { capacity = value; }
-    public int getCapacity() { return capacity; }
+    public void setTank(Tank value) { tank = value; }
+    public Tank getTank() { return tank; }
     
-    public void setType(String value) { type = value; }
-    public String getType() { return type; }
+    public void setHeater(Heater value) { heater = value; }
+    public Heater getHeater() { return heater; }
+    
+    public void setFilter(Filter value) { filter = value; }
+    public Filter getFilter() { return filter; }
 }

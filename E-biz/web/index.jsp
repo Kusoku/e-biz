@@ -3,7 +3,7 @@
     Created on : 2015-04-03, 12:10:38
     Author     : Konrad
 --%>
-
+<% request.getSession().setAttribute("table", ""); %>
 <%@ include file="js/header.jspf" %>
 
 	<div id="site_content">		

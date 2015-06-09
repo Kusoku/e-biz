@@ -49,7 +49,7 @@ public class Helper {
         }
     }
     
-    public static Models.User auth_self(Models.User user, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+   /* public static Models.User auth_self(Models.User user, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
         Common.DAO dao = new DAO();
         Models.User u = null;
@@ -67,7 +67,7 @@ public class Helper {
         }
         return u;        
     }
-    
+    */
     public static String show_results(HttpServletRequest request)
     {
         String info = (String)request.getAttribute("result");
