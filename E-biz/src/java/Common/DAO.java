@@ -52,7 +52,7 @@ public class DAO
     public Models.Tank GetTank (int id) throws SQLException
     {
         connect();
-        String query_string = "SELECT capacity, type FROM tank WHERE id=?";
+        String query_string = "SELECT * FROM tank WHERE id=?";
         PreparedStatement pstmt = con.prepareStatement(query_string);
         pstmt.setInt(1, id);
         ResultSet rs = pstmt.executeQuery();
@@ -72,7 +72,7 @@ public class DAO
         Vector<Models.Tank> vector = new Vector<Models.Tank>();
         connect();
         PreparedStatement pstmt;
-        pstmt = con.prepareStatement("SELECT capacity, type FROM tank");
+        pstmt = con.prepareStatement("SELECT * FROM tank");
         ResultSet rs = pstmt.executeQuery();    
         while(rs.next())
         {
@@ -96,7 +96,7 @@ public class DAO
     public Models.Heater GetHeater (int id) throws SQLException
     {
         connect();
-        String query_string = "SELECT capacity, type FROM heater WHERE id=?";
+        String query_string = "SELECT * FROM heater WHERE id=?";
         PreparedStatement pstmt = con.prepareStatement(query_string);
         pstmt.setInt(1, id);
         ResultSet rs = pstmt.executeQuery();
@@ -116,7 +116,7 @@ public class DAO
         Vector<Models.Heater> vector = new Vector<Models.Heater>();
         connect();
         PreparedStatement pstmt;
-        pstmt = con.prepareStatement("SELECT capacity, type FROM heater");
+        pstmt = con.prepareStatement("SELECT * FROM heater");
         ResultSet rs = pstmt.executeQuery();    
         while(rs.next())
         {
@@ -141,7 +141,7 @@ public class DAO
     public Models.Filter GetFilter (int id) throws SQLException
     {
         connect();
-        String query_string = "SELECT capacity, type FROM filter WHERE id=?";
+        String query_string = "SELECT * FROM filter WHERE id=?";
         PreparedStatement pstmt = con.prepareStatement(query_string);
         pstmt.setInt(1, id);
         ResultSet rs = pstmt.executeQuery();
@@ -161,7 +161,7 @@ public class DAO
         Vector<Models.Filter> vector = new Vector<Models.Filter>();
         connect();
         PreparedStatement pstmt;
-        pstmt = con.prepareStatement("SELECT capacity, type FROM filter");
+        pstmt = con.prepareStatement("SELECT * FROM filter");
         ResultSet rs = pstmt.executeQuery();    
         while(rs.next())
         {

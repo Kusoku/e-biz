@@ -11,7 +11,7 @@
 <%@page import="Common.DAO"%>
 <%@page import="Common.Helper"%>
 <% Models.Aquarium aquarium = (Models.Aquarium) request.getSession().getAttribute("aquarium");%> 
-<% String table = (String) request.getSession().getAttribute("table").toString();%>
+<% String table = (String) request.getSession().getAttribute("table").toString()witcher ;%>
 
 <%@ include file="js/header.jspf" %>  
 
@@ -27,11 +27,12 @@
 	  <div id="content">
         <div class="content_item">
             <%
-            Object o = null;
+            Object o = request.getAttribute("tanks");
             Vector<Models.Filter> filters = null;
             Vector<Models.Heater> heaters = null;
             Vector<Models.Tank> tanks = null;
-            
+            System.out.print("table print: ");
+            System.out.println(table);
             
             if(table=="heater"){    
                 o = request.getAttribute("heaters");
@@ -43,22 +44,18 @@
                 heaters = (Vector<Models.Heater>) o;
             }
             
-            if(table=="tank"){    
-                o = request.getAttribute("tanks");
-                tanks = (Vector<Models.Tank>) o;
-            }
             
             if (o == null) {
-                request.getRequestDispatcher("/post_build_heater").forward(request, response);
-                request.getRequestDispatcher("/post_build_filter").forward(request, response);
-                request.getRequestDispatcher("/post_build_tank").forward(request, response);                          
+                request.getRequestDispatcher("/post_build").forward(request, response); 
+                request.getSession().setAttribute("table", "tank");
                 return;
             }
             
+            tanks = (Vector<Models.Tank>) o;
+            
+            
             %>
-            
-            
-            
+
             
 		<% if(table=="tank"){ %>
 			<h1>Tank</h1>
@@ -198,7 +195,7 @@
 				</tbody>
 			</table>
 			<br><br><br><br><br><br><br><br><br>
-			<div class="button_small" style="float:right"><a href="/build">Reset</a></div> --%>
+			<div class="button_small" style="float:right"><a href="/build">Reset</a></div>
 		</div><!--close content_item-->
       </div><!--close content-->   
 	</div><!--close site_content-->  	
