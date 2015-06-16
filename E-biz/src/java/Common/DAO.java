@@ -56,9 +56,10 @@ public class DAO
         PreparedStatement pstmt = con.prepareStatement(query_string);
         pstmt.setInt(1, id);
         ResultSet rs = pstmt.executeQuery();
-
+        
         if(rs.next())
         {
+            
             Models.Tank tank = createTank(rs);
             con.close();
             return tank;
@@ -163,8 +164,10 @@ public class DAO
         PreparedStatement pstmt;
         pstmt = con.prepareStatement("SELECT * FROM filter");
         ResultSet rs = pstmt.executeQuery();    
+        
         while(rs.next())
         {
+            
             vector.add(createFilter(rs));
         }
         con.close();

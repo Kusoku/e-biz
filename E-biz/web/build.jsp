@@ -11,7 +11,7 @@
 <%@page import="Common.DAO"%>
 <%@page import="Common.Helper"%>
 <% Models.Aquarium aquarium = (Models.Aquarium) request.getSession().getAttribute("aquarium");%> 
-<% String table = (String) request.getSession().getAttribute("table").toString()witcher ;%>
+<% String table = request.getSession().getAttribute("table").toString();%>
 
 <%@ include file="js/header.jspf" %>  
 
@@ -27,33 +27,25 @@
 	  <div id="content">
         <div class="content_item">
             <%
-            Object o = request.getAttribute("tanks");
+            Object o = null;
             Vector<Models.Filter> filters = null;
             Vector<Models.Heater> heaters = null;
             Vector<Models.Tank> tanks = null;
-            System.out.print("table print: ");
-            System.out.println(table);
-            
-            if(table=="heater"){    
-                o = request.getAttribute("heaters");
-                filters = (Vector<Models.Filter>) o;
-            }
-            
-            if(table=="filter"){    
-                o = request.getAttribute("filters");
-                heaters = (Vector<Models.Heater>) o;
-            }
-            
-            
+              
+            o = request.getAttribute("heaters");
+            heaters = (Vector<Models.Heater>) o;
+             
+            o = request.getAttribute("filters");
+            filters = (Vector<Models.Filter>) o;
+ 
+            o = request.getAttribute("tanks");
+            tanks = (Vector<Models.Tank>) o;
+
             if (o == null) {
                 request.getRequestDispatcher("/post_build").forward(request, response); 
-                request.getSession().setAttribute("table", "tank");
                 return;
-            }
-            
-            tanks = (Vector<Models.Tank>) o;
-            
-            
+            }          
+            System.out.println(request.getSession().getAttribute("table").toString());
             %>
 
             
@@ -66,7 +58,6 @@
 		<% if(table=="heater"){ %>
 			<h1>Heater</h1>
 		<%}%>
-		
 		  <table id="builder" class="tablesorter" style="float:left;">
 				<thead>
 					<tr>
@@ -104,7 +95,7 @@
 								<%= tank.getCapacity() %>
 							</td>
 							<td>
-								<form action="/build?tank=<%=tank%>?table=filter" method="post" id="build-form">
+								<form action="./choose?id=<%=tank.getId()%>" method="post" id="build-form">
 									<div class="button_small">
 									<button type="submit">Choose</button>
 									</div>
@@ -117,47 +108,46 @@
                                             int i=0;
                                             for (Models.Filter filter : filters) {%>
 						<tr>
-							<td>
-								<%=(i+1)%><% i++; %>
-						</td>
-						<td>
-							<td>
-								<%= filter.getType() %>
-							</td>
-							<td>
-								<%= filter.getCapacity() %>
-							</td>
-							<td>
-							<form action="/build?filter=<%=filter%>?table=heater" method="post" id="build-form">
-                                                                <div class="button_small">
-								<button type="submit">Choose</button>
-								</div>
+                                                    <td>
+							<%=(i+1)%><% i++; %>
+                                                    </td>
+                                                    <td>
+							<%= filter.getType() %>
+                                                    </td>
+                                                    <td>
+                                                    	<%= filter.getCapacity() %>
+                                                    </td>
+                                                    <td>
+                                                        <form action="./choose?id=<%=filter.getId()%>" method="post" id="build-form">
+                                                            <div class="button_small">
+                                                                <button type="submit">Choose</button>
+                                                            </div>
 							</form>
-						</td>
-					</tr>
+                                                    </td>
+                                                </tr>
 					<%}}
 					
 					if(table=="heater"){ 
                                             int i=0;
                                             for (Models.Heater heater : heaters) {%>
 						<tr>
-							<td>
-								<%=(i+1)%><% i++; %>
-						</td>
-						<td>
-							<td>
-								<%= heater.getType() %>
-							</td>
-							<td>
-								<%= heater.getCapacity() %>
-							</td>
-							<td>
-							<form action="/build?heater=<%=heater%>?table=aq" method="post" id="build-form">
-                                                                <div class="button_small">
-								<button type="submit">Choose</button>
-								</div>
+                                                    <td>
+							<%=(i+1)%><% i++; %>
+                                                    </td>
+						
+                                                    <td>
+                                                    	<%= heater.getType() %>
+                                                    </td>
+                                                    <td>
+							<%= heater.getCapacity() %>
+                                                    </td>
+                                                    <td>
+							<form action="./choose?id=<%=heater.getId()%>" method="post" id="build-form">
+                                                            <div class="button_small">
+                                                       		<button type="submit">Choose</button>
+                                                            </div>
 							</form>
-						</td>
+                                                    </td>
 					</tr>
 					<%}}
 					
@@ -169,6 +159,7 @@
 				</tbody>
 			</table>
 			
+
 			<table id="builded" class="tablesorter" style="float:right;">
 				<thead>
 					<tr>
@@ -183,8 +174,8 @@
 					<tr>
 						<td id="chosen"><%=aquarium.getTank().getCapacity()%></td>
 						<td id="chosen"><%=aquarium.getTank().getType()%></td>
-						<td id="chosen"><%=aquarium.getFilter().getType()%></td>
-						<td id="chosen"><%=aquarium.getHeater().getType()%></td>
+						<td id="chosen"><%if(aquarium.getFilter()!=null){%><%=aquarium.getFilter().getType()%><%}%></td>
+						<td id="chosen"><%if(aquarium.getHeater()!=null){%><%=aquarium.getHeater().getType()%><%}%></td>
 					</tr>
 				
 				<% }else{ %>	
@@ -195,7 +186,7 @@
 				</tbody>
 			</table>
 			<br><br><br><br><br><br><br><br><br>
-			<div class="button_small" style="float:right"><a href="/build">Reset</a></div>
+			<div class="button_small" style="float:right"><a href="./reset">Reset</a></div>
 		</div><!--close content_item-->
       </div><!--close content-->   
 	</div><!--close site_content-->  	

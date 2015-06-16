@@ -3,7 +3,8 @@
     Created on : 2015-04-03, 12:10:38
     Author     : Konrad
 --%>
-<% request.getSession().setAttribute("table", ""); %>
+<%@page import="Common.Helper"%>
+<% if(request.getSession().getAttribute("table")==null) request.getSession().setAttribute("table", "tank"); %>
 <%@ include file="js/header.jspf" %>
 
 	<div id="site_content">		
@@ -16,6 +17,7 @@
 	  </div>
 	   
 	  <div id="content">
+              <div class="results"><%= Helper.show_results(request)%></div>
         <div class="content_item">
 		  <h1>Welcome to my project page</h1> 
           <p>Page uses a free Template (slightly modified) </p> <br>

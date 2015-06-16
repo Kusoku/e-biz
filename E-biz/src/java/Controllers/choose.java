@@ -1,13 +1,15 @@
 /*
- * To change this template, choose Tools | Templates
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
 package Controllers;
 
-import Common.DAO;
 import java.io.IOException;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.io.PrintWriter;
-import java.util.Vector;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -16,15 +18,14 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author Konrad
+ * @author Kwydin
  */
-@WebServlet(name = "post_build", urlPatterns = {"/post_build"})
-public class post_build_tank extends HttpServlet {
+@WebServlet(name = "choose", urlPatterns = {"/choose"})
+public class choose extends HttpServlet {
 
     /**
-     * Processes requests for both HTTP
-     * <code>GET</code> and
-     * <code>POST</code> methods.
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
      *
      * @param request servlet request
      * @param response servlet response
@@ -36,29 +37,50 @@ public class post_build_tank extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         request.setCharacterEncoding("UTF-8");
         
-        Vector<Models.Tank> tanks = new Vector<Models.Tank>();
-        Vector<Models.Filter> filters = new Vector<Models.Filter>();
-        Vector<Models.Heater> heaters = new Vector<Models.Heater>();
-        try{
-            tanks = new DAO().GetTanks();
-            filters = new DAO().GetFilters();
-            heaters = new DAO().GetHeaters();
+        Models.Aquarium aquarium = (Models.Aquarium) request.getSession().getAttribute("aquarium");
+        String table = request.getSession().getAttribute("table").toString();
+        
+        if(aquarium==null){
+            aquarium = new Models.Aquarium();
         }
-        catch(Exception ex)
-        {
-            request.setAttribute("result", "Błąd: "+ex.getMessage());
+        
+        Common.DAO dao = new Common.DAO();
+        
+        if(table=="tank"){
+            try {
+                aquarium.setTank(dao.GetTank(Integer.parseInt(request.getParameter("id"))));
+            } catch (SQLException ex) {
+                Logger.getLogger(choose.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            request.getSession().setAttribute("table", "filter");
         }
-        request.setAttribute("tanks", tanks);
-        request.setAttribute("filters", filters);
-        request.setAttribute("heaters", heaters); 
-        request.setAttribute("table", "tank");
+        if(table=="filter"){
+            try {
+                aquarium.setFilter(dao.GetFilter(Integer.parseInt(request.getParameter("id"))));
+            } catch (SQLException ex) {
+                Logger.getLogger(choose.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            request.getSession().setAttribute("table", "heater");
+        }
+        
+        if(table=="heater"){
+            try {
+                aquarium.setHeater(dao.GetHeater(Integer.parseInt(request.getParameter("id"))));
+            } catch (SQLException ex) {
+                Logger.getLogger(choose.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            request.getSession().setAttribute("table", "aq");
+        }
+        
+        
+        
+        request.getSession().setAttribute("aquarium", aquarium);
         request.getRequestDispatcher("/build.jsp").forward(request,response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
-     * Handles the HTTP
-     * <code>GET</code> method.
+     * Handles the HTTP <code>GET</code> method.
      *
      * @param request servlet request
      * @param response servlet response
@@ -72,8 +94,7 @@ public class post_build_tank extends HttpServlet {
     }
 
     /**
-     * Handles the HTTP
-     * <code>POST</code> method.
+     * Handles the HTTP <code>POST</code> method.
      *
      * @param request servlet request
      * @param response servlet response
@@ -95,4 +116,5 @@ public class post_build_tank extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
 }
