@@ -3,8 +3,6 @@
     Created on : 2015-04-03, 12:10:38
     Author     : Konrad
 --%>
-<%@page import="Common.Helper"%>
-<% if(request.getSession().getAttribute("table")==null) request.getSession().setAttribute("table", "tank"); %>
 <%@ include file="js/header.jspf" %>
 
 	<div id="site_content">		
@@ -17,9 +15,10 @@
 	  </div>
 	   
 	  <div id="content">
-              <div class="results"><%= Helper.show_results(request)%></div>
+              
         <div class="content_item">
-		  <h1>Welcome to my project page</h1> 
+            <div class="results"><% if(Helper.show_results(request)==""){%> 
+		  <h1>Welcome to my project page</h1> <%}else{%><%= Helper.show_results(request)%><%}%></div>
           <p>Page uses a free Template (slightly modified) </p> <br>
 		  <p>Uses some Jquery, javascript, java, jsp and servlets</p>
 		</div><!--close content_item-->

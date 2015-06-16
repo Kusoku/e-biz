@@ -5,18 +5,27 @@
  */
 package Models;
 
+import java.util.Date;
+
 /**
  *
  * @author Konrad
  */
 public class Aquarium {
-    int userID;
+    int id;
+    int user_id;
+    
+    Date created_at;
+    
     Tank tank;
     Heater heater;
     Filter filter;
     
-    public void setUserId(int value) { userID = value; }
-    public int getUserId() { return userID; }
+    public void setId(int value) { id = value; }
+    public int getId() { return id; }    
+    
+    public void setUserId(int value) { user_id = value; }
+    public int getUserId() { return user_id; }
     
     public void setTank(Tank value) { tank = value; }
     public Tank getTank() { return tank; }
@@ -26,4 +35,7 @@ public class Aquarium {
     
     public void setFilter(Filter value) { filter = value; }
     public Filter getFilter() { return filter; }
+    
+    public void setDate(Date value) { created_at = value; }
+    public Date getDate() { return created_at; }
 }

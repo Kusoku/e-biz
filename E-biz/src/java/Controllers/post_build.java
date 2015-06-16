@@ -37,20 +37,15 @@ public class post_build extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         
         Vector<Models.Tank> tanks = new Vector<Models.Tank>();
-        Vector<Models.Filter> filters = new Vector<Models.Filter>();
-        Vector<Models.Heater> heaters = new Vector<Models.Heater>();
         try{
             tanks = new DAO().GetTanks();
-            filters = new DAO().GetFilters();
-            heaters = new DAO().GetHeaters();
+            
         }
         catch(Exception ex)
         {
             request.setAttribute("result", "Błąd: "+ex.getMessage());
         }
         request.setAttribute("tanks", tanks);
-        request.setAttribute("filters", filters);
-        request.setAttribute("heaters", heaters); 
         request.getRequestDispatcher("/build.jsp").forward(request,response);
     }
 

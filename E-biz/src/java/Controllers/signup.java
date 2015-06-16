@@ -43,9 +43,9 @@ public class signup extends HttpServlet {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
         String confirmation = request.getParameter("password_confirmation");
-        
         if(name == null || email == null || password == null || confirmation == null)
         {
+            request.setAttribute("result", "Coś poszło nie tak");
             request.getRequestDispatcher("/signup.jsp").forward(request,response);
         }
         else if(name.isEmpty() || email.isEmpty() || password.isEmpty() || confirmation.isEmpty())

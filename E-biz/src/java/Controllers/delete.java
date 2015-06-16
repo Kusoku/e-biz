@@ -7,11 +7,10 @@ package Controllers;
 
 import Common.DAO;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.io.PrintWriter;
-import java.util.Vector;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -22,8 +21,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Kwydin
  */
-@WebServlet(name = "choose", urlPatterns = {"/choose"})
-public class choose extends HttpServlet {
+@WebServlet(name = "delete", urlPatterns = {"/delete"})
+public class delete extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -39,51 +38,17 @@ public class choose extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         request.setCharacterEncoding("UTF-8");
         
-        Models.Aquarium aquarium = (Models.Aquarium) request.getSession().getAttribute("aquarium");
-        String table = request.getSession().getAttribute("table").toString();
-        Vector<Models.Filter> filters = new Vector<Models.Filter>();
-        Vector<Models.Heater> heaters = new Vector<Models.Heater>();
-        
-        if(aquarium==null){
-            aquarium = new Models.Aquarium();
-        }
+        int id =  Integer.parseInt(request.getParameter("id"));
         
         Common.DAO dao = new Common.DAO();
         
-        if(table=="tank"){
-            try {
-                aquarium.setTank(dao.GetTank(Integer.parseInt(request.getParameter("id"))));
-                filters = new DAO().GetFilters(aquarium.getTank().getCapacity());
+        try {
+                dao.DeleteAquarium(id);
             } catch (SQLException ex) {
                 Logger.getLogger(choose.class.getName()).log(Level.SEVERE, null, ex);
             }
-            request.getSession().setAttribute("table", "filter");
-            request.setAttribute("filters", filters);
-        }
-        if(table=="filter"){
-            try {
-                aquarium.setFilter(dao.GetFilter(Integer.parseInt(request.getParameter("id"))));
-                heaters = new DAO().GetHeaters(aquarium.getTank().getCapacity());
-            } catch (SQLException ex) {
-                Logger.getLogger(choose.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            request.getSession().setAttribute("table", "heater");
-            request.setAttribute("heaters", heaters); 
-        }
         
-        if(table=="heater"){
-            try {
-                aquarium.setHeater(dao.GetHeater(Integer.parseInt(request.getParameter("id"))));
-            } catch (SQLException ex) {
-                Logger.getLogger(choose.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            request.getSession().setAttribute("table", "aq");
-        }
-        
-        
-        
-        request.getSession().setAttribute("aquarium", aquarium);
-        request.getRequestDispatcher("/build.jsp").forward(request,response);
+        request.getRequestDispatcher("/list.jsp").forward(request,response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

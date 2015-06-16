@@ -39,7 +39,7 @@ public class Helper {
             return null;
         }
         Models.User user = (Models.User)o;
-        if(user.isAdmin())
+        if(user.isMod())
             return user;
         else
         {
@@ -49,7 +49,7 @@ public class Helper {
         }
     }
     
-   /* public static Models.User auth_self(Models.User user, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+    public static Models.User auth_self(Models.User user, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
         Common.DAO dao = new DAO();
         Models.User u = null;
@@ -57,7 +57,7 @@ public class Helper {
             u = dao.GetUser(Integer.parseInt(request.getParameter("id")));
             if(u == null)
                 throw new Exception("Nie znaleziono użytkownika");
-            if(!user.isAdmin() && u.getId() != user.getId())
+            if(!user.isMod() && u.getId() != user.getId())
                 throw new Exception("Nie możesz edytować cudzego profilu");
         }
         catch(Exception ex)
@@ -67,12 +67,12 @@ public class Helper {
         }
         return u;        
     }
-    */
+    
     public static String show_results(HttpServletRequest request)
     {
         String info = (String)request.getAttribute("result");
         if(info == null) return "";
-        return "<div class=\"result\">"+info+"</div>";
+        return "<h1 class=\"result\">"+info+"</h1>";
     }
     
 }

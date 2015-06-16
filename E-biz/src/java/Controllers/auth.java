@@ -55,13 +55,11 @@ public class auth extends HttpServlet {
             try 
             {
                 if(option.equals("0"))
-                    dao.AuthUser(true, true, id);
-                if(option.equals("1") || option.equals("2"))
-                    dao.AuthUser(false, true, id);
-                if(option.equals("3"))
-                    dao.AuthUser(false, false, id);
+                    dao.AuthUser(true, id);
+                if(option.equals("1"))
+                    dao.AuthUser(false, id);
                 request.setAttribute("result", "zmieniono.");
-                response.sendRedirect("/ProjektXML/edit_user?id="+id_);
+                response.sendRedirect("/E-biz/edit_user?id="+id_);
                 //request.getRequestDispatcher("/").forward(request,response);
             } catch (Exception ex) {
                 request.setAttribute("result", "Nie udało się wykonać operacji.\n"+ex.getMessage());

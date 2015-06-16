@@ -39,7 +39,7 @@ public class signout extends HttpServlet {
 
             session.setAttribute("user", null);
 
-            request.setAttribute("result", "Wylogowano.");
+            request.setAttribute("result", "Logged out.");
 
         } catch (Exception ex){
             request.setAttribute("result", "We cannot hold!");

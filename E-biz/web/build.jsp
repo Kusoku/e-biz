@@ -4,12 +4,9 @@
     Author     : Konrad
 --%>
 
-<%@page import="java.util.Vector"%>
 <%@page import="Models.Tank"%>
 <%@page import="Models.Heater"%>
 <%@page import="Models.Filter"%>
-<%@page import="Common.DAO"%>
-<%@page import="Common.Helper"%>
 <% Models.Aquarium aquarium = (Models.Aquarium) request.getSession().getAttribute("aquarium");%> 
 <% String table = request.getSession().getAttribute("table").toString();%>
 
@@ -45,7 +42,7 @@
                 request.getRequestDispatcher("/post_build").forward(request, response); 
                 return;
             }          
-            System.out.println(request.getSession().getAttribute("table").toString());
+            //System.out.println(request.getSession().getAttribute("table").toString());
             %>
 
             
@@ -187,6 +184,9 @@
 			</table>
 			<br><br><br><br><br><br><br><br><br>
 			<div class="button_small" style="float:right"><a href="./reset">Reset</a></div>
+                        <% if(user!=null){ %>
+                            <div class="button_small" style="float:right"><a href="./save">Save</a></div>
+                        <%}%>
 		</div><!--close content_item-->
       </div><!--close content-->   
 	</div><!--close site_content-->  	

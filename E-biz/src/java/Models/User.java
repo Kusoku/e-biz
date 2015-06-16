@@ -20,9 +20,9 @@ public class User
     String token;
     Date created_at;
     
-    boolean admin, mod;
+    boolean mod;
 
-    public void setId(int value) { id = value; admin=mod=false; }
+    public void setId(int value) { id = value; mod=false; }
     public int getId() { return id; }
     
     public void setUsername(String value) { username = value; }
@@ -33,9 +33,6 @@ public class User
     
     public void setDate(Date value) { created_at = value; }
     public Date getDate() { return created_at; }
-    
-    public void setAdmin(boolean value) { admin = value; }
-    public boolean isAdmin() { return admin; }
     
     public void setMod(boolean value) { mod = value; }
     public boolean isMod() { return mod; }   

@@ -1,4 +1,10 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="java.util.Vector"%>
+<%@page import="Models.User"%>
+<%@page import="Common.DAO"%>
+<%@page import="Common.Helper"%>
+<% Models.User user = (Models.User) request.getSession().getAttribute("user");%>
+<% if(request.getSession().getAttribute("table")==null) request.getSession().setAttribute("table", "tank"); %>
 <!DOCTYPE html>
 <html>
 
@@ -27,8 +33,18 @@
               <ul id="nav">
                 <li><a href="/E-biz/index.jsp">Home</a></li>
                 <li><a href="/E-biz/build.jsp">Build Aquarium</a></li>
+                <% if(user != null){ %>
+                    <li><a href="/E-biz/aquarium.jsp">Aquariums</a></li>
+		<% } %>
                 <li><a href="/E-biz/nitrogen.jsp">Nitrogen Cycle</a></li>
                 <li><a href="/E-biz/fish.jsp">Maintenance</a></li>
+                <% if(user != null){ %>
+                    <li style="float:right;"><a href="/E-biz/signout">Logout</a></li>
+                    <li style="float:right;"><div class="user"><%= user.getUsername() %></div></li>
+                <% }else{ %>
+                    <li style="float:right;"><a href="/E-biz/signup.jsp">Register</a></li>
+                    <li style="float:right;"><a href="/E-biz/signin.jsp">Login</a></li>
+                <%}%>
               </ul>
             </div>
         </nav>

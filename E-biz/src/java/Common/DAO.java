@@ -38,6 +38,75 @@ public class DAO
     
     //------------------Aquarium------------------         
     
+    private Models.Aquarium createAquarium(ResultSet rs) throws SQLException 
+    {
+        Models.Aquarium aquarium = new Models.Aquarium();
+        aquarium.setId(rs.getInt(1));
+        aquarium.setTank(GetTank(rs.getInt(2)));
+        aquarium.setFilter(GetFilter(rs.getInt(3)));
+        aquarium.setHeater(GetHeater(rs.getInt(4)));
+        aquarium.setUserId(rs.getInt(5));
+        aquarium.setDate(rs.getTimestamp(6));
+        
+        return aquarium;
+    }
+    
+    public void AddAquarium (Models.Aquarium aquarium) throws SQLException {
+        connect();
+        PreparedStatement pstmt = con.prepareStatement("insert into AQUARIUM (tank_id,filter_id,heater_id,user_id,created_at) values ( ? , ? , ? , ? , CURRENT_TIMESTAMP )");
+
+        pstmt.setInt(1, aquarium.getTank().getId());
+        pstmt.setInt(2, aquarium.getFilter().getId());
+        pstmt.setInt(3, aquarium.getHeater().getId());
+        pstmt.setInt(4, aquarium.getUserId());
+        pstmt.executeUpdate();
+    }
+    
+    public void DeleteAquarium (int id) throws SQLException {
+        connect();
+        String query_string = "DELETE FROM aquarium WHERE id = ?";
+        PreparedStatement pstmt = con.prepareStatement(query_string);
+        pstmt.setInt(1, id);
+        pstmt.executeUpdate();
+        con.close();
+    }
+    
+    public Models.Aquarium GetAquarium (int id) throws SQLException
+    {
+        connect();
+        String query_string = "SELECT * FROM aquarium WHERE id=?";
+        PreparedStatement pstmt = con.prepareStatement(query_string);
+        pstmt.setInt(1, id);
+        ResultSet rs = pstmt.executeQuery();
+
+        if(rs.next())
+        {
+            Models.Aquarium aquarium = createAquarium(rs);
+            con.close();
+            return aquarium;
+        }
+        con.close();
+        return null;
+    }
+    
+    public Vector<Models.Aquarium> GetAquariums (int id) throws SQLException
+    {
+        Vector<Models.Aquarium> vector = new Vector<Models.Aquarium>();
+        connect();
+        PreparedStatement pstmt;
+        pstmt = con.prepareStatement("SELECT * FROM aquarium WHERE user_id=?");
+        pstmt.setInt(1, id);
+        ResultSet rs = pstmt.executeQuery();    
+        
+        while(rs.next())
+        {
+            
+            vector.add(createAquarium(rs));
+        }
+        con.close();
+        return vector;
+    } 
+    
     // ********* Tank Methods
     private Models.Tank createTank(ResultSet rs) throws SQLException 
     {
@@ -127,6 +196,22 @@ public class DAO
         return vector;
     }
     
+    public Vector<Models.Heater> GetHeaters (int cap) throws SQLException
+    {
+        Vector<Models.Heater> vector = new Vector<Models.Heater>();
+        connect();
+        PreparedStatement pstmt;
+        pstmt = con.prepareStatement("SELECT * FROM heater WHERE capacity>=?");
+        pstmt.setInt(1, cap);
+        ResultSet rs = pstmt.executeQuery();    
+        while(rs.next())
+        {
+            vector.add(createHeater(rs));
+        }
+        con.close();
+        return vector;
+    }
+    
     // ********* Filter Methods
     
     private Models.Filter createFilter(ResultSet rs) throws SQLException 
@@ -174,7 +259,23 @@ public class DAO
         return vector;
     }
     
-    
+    public Vector<Models.Filter> GetFilters (int cap) throws SQLException
+    {
+        Vector<Models.Filter> vector = new Vector<Models.Filter>();
+        connect();
+        PreparedStatement pstmt;
+        pstmt = con.prepareStatement("SELECT * FROM filter WHERE capacity>=?");
+        pstmt.setInt(1, cap);
+        ResultSet rs = pstmt.executeQuery();    
+        
+        while(rs.next())
+        {
+            
+            vector.add(createFilter(rs));
+        }
+        con.close();
+        return vector;
+    }
     
     
     
@@ -189,8 +290,7 @@ public class DAO
         user.setUsername(rs.getString(2));
         user.setEmail(rs.getString(3));
         user.setDate(rs.getTimestamp(7));
-        user.setAdmin(rs.getBoolean(8));
-        user.setMod(rs.getBoolean(9));
+        user.setMod(rs.getBoolean(8));
         
         return user;       
     }
@@ -198,7 +298,7 @@ public class DAO
     public Models.User GetUser (String email) throws SQLException
     {
         connect();
-        String query_string = "select id, name, email, salt, encrypted_password, token, created_at, admin, mod FROM users WHERE email = ?";
+        String query_string = "select id, username, email, salt, encrypted_password, token, created_at, mod FROM users WHERE email = ?";
         PreparedStatement pstmt = con.prepareStatement(query_string);
         pstmt.setString(1, email);
         ResultSet rs = pstmt.executeQuery();
@@ -216,7 +316,7 @@ public class DAO
     public Models.User GetUser (int id) throws SQLException
     {
         connect();
-        String query_string = "select id, name, email, salt, encrypted_password, token, created_at, admin, mod FROM users WHERE id = ?";
+        String query_string = "select id, username, email, salt, encrypted_password, token, created_at, mod FROM users WHERE id = ?";
         PreparedStatement pstmt = con.prepareStatement(query_string);
         pstmt.setInt(1, id);
         ResultSet rs = pstmt.executeQuery();
@@ -235,7 +335,7 @@ public class DAO
     {
         Vector<Models.User> vector = new Vector<Models.User>();
         connect();
-        PreparedStatement pstmt = con.prepareStatement("SELECT id, name, email, salt, encrypted_password, token, created_at, admin, mod FROM users ORDER BY name");
+        PreparedStatement pstmt = con.prepareStatement("SELECT id, username, email, salt, encrypted_password, token, created_at, mod FROM users ORDER BY name");
 
         ResultSet rs = pstmt.executeQuery();
 
@@ -250,7 +350,7 @@ public class DAO
     public void EditUser(String email, String name, int id) throws SQLException
     {
         connect();
-        String query_string = "UPDATE users SET name= ?, email= ? WHERE id = ?";
+        String query_string = "UPDATE users SET username= ?, email= ? WHERE id = ?";
         PreparedStatement pstmt = con.prepareStatement(query_string);
         pstmt.setString(1, name);
         pstmt.setString(2, email);
@@ -284,14 +384,13 @@ public class DAO
         con.close();
     }
     
-    public void AuthUser(boolean admin, boolean mod, int id) throws SQLException
+    public void AuthUser(boolean mod, int id) throws SQLException
     {
         connect();
-        String query_string = "UPDATE users SET admin= ?, mod= ?  WHERE id = ?";
+        String query_string = "UPDATE users SET mod= ?  WHERE id = ?";
         PreparedStatement pstmt = con.prepareStatement(query_string);
-        pstmt.setBoolean(1, admin);
-        pstmt.setBoolean(2, mod);
-        pstmt.setInt(3, id);
+        pstmt.setBoolean(1, mod);
+        pstmt.setInt(2, id);
         pstmt.executeUpdate();
         con.close();
     }
@@ -325,7 +424,7 @@ public class DAO
         byte[] res = md.digest((rs.getString(1) + password).getBytes());
         String encrypted = new String(res);
 
-        pstmt = con.prepareStatement("select id, name, email, salt, encrypted_password, token, created_at, admin, mod FROM users WHERE email = ?");
+        pstmt = con.prepareStatement("select id, username, email, salt, encrypted_password, token, created_at, mod FROM users WHERE email = ?");
         pstmt.setString(1, email);
         //pstmt.setString(2, encrypted);
         rs = pstmt.executeQuery();
@@ -336,8 +435,7 @@ public class DAO
             user.setUsername(rs.getString(2));
             user.setEmail(rs.getString(3));
             user.setDate(rs.getTimestamp(7));
-            user.setAdmin(rs.getBoolean(8));
-            user.setMod(rs.getBoolean(9));
+            user.setMod(rs.getBoolean(8));
         } else {
             throw new SQLException("Zły login");
         }
@@ -347,7 +445,7 @@ public class DAO
     public void Register (String email, String name, String password) throws SQLException 
     {
         connect();
-        PreparedStatement pstmt = con.prepareStatement("insert into USERS (name,email,salt,encrypted_password,token,created_at) values ( ? , ? , ? , ? , null , CURRENT_TIMESTAMP )");
+        PreparedStatement pstmt = con.prepareStatement("insert into USERS (username,email,salt,encrypted_password,token,created_at) values ( ? , ? , ? , ? , null , CURRENT_TIMESTAMP )");
         
         MessageDigest md = null; 
         try {

@@ -78,6 +78,21 @@ span
 { color: #43A9FF;
   text-shadow: 0px 1px 0px #FFF;}
 
+.user{
+  float: right;
+  font: bold 130% 'PacificoRegular', Arial, sans-serif;
+  height: 24px;
+  margin: 8px 0 0 20px;
+  text-shadow: 0px 1px 0px #000;
+  padding: 0px 20px 10px 20px;
+  background: transparent; 
+  border-radius: 7px 7px 7px 7px;
+  -moz-border-radius: 7px 7px 7px 7px;
+  -webkit-border: 7px 7px 7px 7px;
+  text-align: center;
+  color: #FFF;
+  text-decoration: underline;}
+
 a, a:hover
 { color: #FFF;
   background: transparent;
